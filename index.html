@@ -4,9 +4,580 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ECHO Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* ============================================
+           ECHO PORTFOLIO - Complete CSS
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0a1628;
+            --navy-light: #142040;
+            --gold: #c9a84c;
+            --gold-light: #e8d5a3;
+            --gold-glow: rgba(201, 168, 76, 0.3);
+            --white: #ffffff;
+            --gray: #f0f2f5;
+            --text-dark: #1a1a2e;
+            --text-light: #8a8fa8;
+            --shadow: 0 8px 32px rgba(10, 22, 40, 0.15);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--gray);
+            color: var(--text-dark);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ---------- AUTH PAGES ---------- */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-container::before,
+        .auth-container::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: floatOrb 20s ease-in-out infinite;
+        }
+
+        .auth-container::before {
+            width: 400px;
+            height: 400px;
+            background: var(--gold);
+            top: -100px;
+            right: -100px;
+        }
+
+        .auth-container::after {
+            width: 300px;
+            height: 300px;
+            background: var(--navy-light);
+            bottom: -50px;
+            left: -50px;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, -30px) scale(1.1); }
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius);
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-card .logo { text-align: center; margin-bottom: 32px; }
+        .auth-card .logo h1 { color: var(--white); font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+        .auth-card .logo h1 span { color: var(--gold); }
+        .auth-card .logo p { color: rgba(255, 255, 255, 0.6); font-size: 14px; margin-top: 4px; }
+        .auth-card h2 { color: var(--white); font-size: 22px; font-weight: 600; margin-bottom: 24px; text-align: center; }
+
+        .auth-form .form-group { margin-bottom: 18px; }
+        .auth-form label { display: block; color: rgba(255, 255, 255, 0.7); font-size: 13px; font-weight: 500; margin-bottom: 6px; letter-spacing: 0.3px; }
+        .auth-form input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            color: var(--white);
+            font-size: 15px;
+            transition: var(--transition);
+            outline: none;
+        }
+        .auth-form input:focus {
+            border-color: var(--gold);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 3px var(--gold-glow);
+        }
+        .auth-form input::placeholder { color: rgba(255, 255, 255, 0.3); }
+
+        .auth-form .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--gold), #b8962a);
+            border: none;
+            border-radius: 10px;
+            color: var(--navy);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+        .auth-form .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
+        }
+        .auth-form .btn-primary:active { transform: translateY(0); }
+
+        .auth-card .auth-toggle {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+        .auth-card .auth-toggle a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .auth-card .auth-toggle a:hover { color: var(--gold-light); }
+
+        .auth-error {
+            background: rgba(255, 59, 48, 0.15);
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #ff6b6b;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .auth-error.show { display: block; }
+
+        /* ---------- DASHBOARD ---------- */
+        .dashboard-container { min-height: 100vh; background: var(--gray); }
+
+        .dashboard-header {
+            background: var(--navy);
+            padding: 20px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .dashboard-header .brand { display: flex; align-items: center; gap: 12px; }
+        .dashboard-header .brand h2 { color: var(--white); font-size: 20px; font-weight: 700; }
+        .dashboard-header .brand h2 span { color: var(--gold); }
+
+        .dashboard-header .user-info { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .dashboard-header .user-info .user-email { color: rgba(255, 255, 255, 0.7); font-size: 14px; }
+
+        .dashboard-header .user-info .badge {
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-free { background: rgba(255, 255, 255, 0.1); color: var(--text-light); }
+        .badge-premium { background: var(--gold); color: var(--navy); }
+        .badge-admin { background: #ff6b6b; color: white; }
+
+        .dashboard-header .header-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .dashboard-header .header-actions .btn-outline {
+            padding: 8px 18px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .dashboard-header .header-actions .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--gold);
+        }
+        .dashboard-header .header-actions .btn-gold {
+            padding: 8px 20px;
+            background: var(--gold);
+            border: none;
+            border-radius: 8px;
+            color: var(--navy);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .dashboard-header .header-actions .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(201, 168, 76, 0.4);
+        }
+
+        .dashboard-main { max-width: 1400px; margin: 0 auto; padding: 32px; }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            box-shadow: var(--shadow);
+        }
+        .stat-card .stat-label { font-size: 13px; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card .stat-value { font-size: 28px; font-weight: 700; color: var(--navy); margin-top: 4px; }
+        .stat-card .stat-value .gold { color: var(--gold); }
+
+        /* Unit Grid */
+        .units-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        .unit-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            border: 2px solid transparent;
+        }
+        .unit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(10, 22, 40, 0.15);
+            border-color: var(--gold);
+        }
+        .unit-card .unit-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+        .unit-card .unit-name { font-weight: 600; font-size: 16px; color: var(--navy); margin-bottom: 4px; }
+        .unit-card .unit-meta { font-size: 13px; color: var(--text-light); }
+        .unit-card .unit-actions { margin-top: 12px; display: flex; gap: 8px; }
+        .unit-card .unit-actions .btn-sm {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .unit-card .unit-actions .btn-sm-danger { background: #fee2e2; color: #dc2626; }
+        .unit-card .unit-actions .btn-sm-danger:hover { background: #fecaca; }
+        .unit-card .unit-actions .btn-sm-edit { background: #dbeafe; color: #2563eb; }
+        .unit-card .unit-actions .btn-sm-edit:hover { background: #bfdbfe; }
+
+        .add-unit-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 2px dashed #d1d5db;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 160px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .add-unit-card:hover { border-color: var(--gold); background: rgba(201, 168, 76, 0.05); }
+        .add-unit-card .plus-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--navy);
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 8px;
+        }
+        .add-unit-card .add-text { color: var(--text-light); font-size: 14px; font-weight: 500; }
+
+        /* ---------- UNIT VIEW ---------- */
+        .unit-view-container { min-height: 100vh; background: var(--gray); }
+
+        .unit-view-header {
+            background: var(--navy);
+            padding: 20px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .unit-view-header .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .unit-view-header .back-btn:hover { color: var(--white); }
+        .unit-view-header .unit-title { color: var(--white); font-size: 18px; font-weight: 600; }
+
+        .unit-view-main { max-width: 1200px; margin: 0 auto; padding: 32px; }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .item-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+        .item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(10, 22, 40, 0.15);
+        }
+        .item-card .item-thumb {
+            width: 100%;
+            height: 140px;
+            background: var(--gray);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        .item-card .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .item-card .item-name { font-weight: 600; font-size: 14px; color: var(--navy); margin-bottom: 2px; }
+        .item-card .item-type { font-size: 12px; color: var(--text-light); }
+        .item-card .item-actions { margin-top: 10px; display: flex; gap: 8px; }
+        .item-card .item-actions .btn-sm {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .item-card .item-actions .btn-sm-danger { background: #fee2e2; color: #dc2626; }
+        .item-card .item-actions .btn-sm-danger:hover { background: #fecaca; }
+
+        .add-item-area {
+            background: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+        .add-item-area h3 { font-size: 16px; color: var(--navy); margin-bottom: 16px; }
+        .add-item-area .add-form { display: flex; gap: 12px; flex-wrap: wrap; }
+        .add-item-area .add-form input[type="text"],
+        .add-item-area .add-form input[type="file"],
+        .add-item-area .add-form select {
+            padding: 10px 14px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            flex: 1;
+            min-width: 150px;
+            background: white;
+        }
+        .add-item-area .add-form input:focus,
+        .add-item-area .add-form select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px var(--gold-glow);
+        }
+        .add-item-area .add-form .btn-add {
+            padding: 10px 28px;
+            background: var(--navy);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .add-item-area .add-form .btn-add:hover {
+            background: var(--navy-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(10, 22, 40, 0.3);
+        }
+
+        /* ---------- ADMIN ---------- */
+        .admin-container { min-height: 100vh; background: var(--gray); padding: 32px; }
+        .admin-container .admin-header {
+            background: var(--navy);
+            margin: -32px -32px 32px -32px;
+            padding: 24px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .admin-container .admin-header h1 { color: var(--white); font-size: 24px; }
+        .admin-container .admin-header h1 span { color: var(--gold); }
+        .admin-container .admin-header .admin-badge {
+            padding: 6px 18px;
+            background: #ff6b6b;
+            border-radius: 20px;
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+        .stats-grid .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--gold);
+        }
+        .stats-grid .card h3 { font-size: 14px; color: var(--text-light); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stats-grid .card p { font-size: 36px; font-weight: 700; color: var(--navy); margin-top: 4px; }
+
+        /* ---------- MODAL ---------- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: white;
+            border-radius: var(--radius);
+            padding: 32px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease-out;
+        }
+        .modal h2 { font-size: 20px; color: var(--navy); margin-bottom: 8px; }
+        .modal p { color: var(--text-light); font-size: 14px; margin-bottom: 20px; }
+        .modal .modal-actions { display: flex; gap: 12px; justify-content: flex-end; }
+        .modal .modal-actions .btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .modal .modal-actions .btn-secondary { background: var(--gray); color: var(--text-dark); }
+        .modal .modal-actions .btn-secondary:hover { background: #e5e7eb; }
+        .modal .modal-actions .btn-danger { background: #dc2626; color: white; }
+        .modal .modal-actions .btn-danger:hover { background: #b91c1c; }
+        .modal .modal-actions .btn-primary { background: var(--gold); color: var(--navy); }
+        .modal .modal-actions .btn-primary:hover { background: #b8962a; }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 768px) {
+            .auth-card { padding: 32px 24px; }
+            .dashboard-header { padding: 16px; }
+            .dashboard-header .brand h2 { font-size: 16px; }
+            .dashboard-header .user-info .user-email { font-size: 12px; }
+            .dashboard-main { padding: 16px; }
+            .units-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+            .unit-view-header { padding: 16px; }
+            .unit-view-main { padding: 16px; }
+            .items-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .admin-container .admin-header { flex-direction: column; text-align: center; }
+            .add-item-area .add-form { flex-direction: column; }
+            .add-item-area .add-form input[type="text"],
+            .add-item-area .add-form input[type="file"],
+            .add-item-area .add-form select { min-width: 100%; }
+            .dashboard-stats { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .auth-card { padding: 24px 16px; }
+            .dashboard-header .header-actions .btn-outline { padding: 6px 12px; font-size: 12px; }
+            .dashboard-header .header-actions .btn-gold { padding: 6px 14px; font-size: 12px; }
+            .units-grid { grid-template-columns: 1fr 1fr; }
+            .dashboard-stats { grid-template-columns: 1fr; }
+        }
+
+        .hidden { display: none !important; }
+
+        /* ---------- SCROLLBAR ---------- */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--gray); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b8962a; }
+    </style>
 </head>
 <body>
 
@@ -46,7 +617,6 @@
 <!-- PAGE 2: DASHBOARD (40-Unit Grid)            -->
 <!-- ============================================ -->
 <div id="page-dashboard" class="dashboard-container" style="display:none;">
-    <!-- Header -->
     <header class="dashboard-header">
         <div class="brand">
             <h2>ECHO <span>Portfolio</span></h2>
@@ -62,7 +632,6 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="dashboard-main">
         <div class="dashboard-stats">
             <div class="stat-card">
@@ -99,7 +668,6 @@
     </header>
 
     <main class="unit-view-main">
-        <!-- Add Item Area -->
         <div class="add-item-area">
             <h3>Add New Portfolio Item</h3>
             <form class="add-form" id="add-item-form">
@@ -116,7 +684,6 @@
             </form>
         </div>
 
-        <!-- Items Grid -->
         <div class="items-grid" id="items-grid">
             <!-- Items rendered by JavaScript -->
         </div>
@@ -183,6 +750,767 @@
     </div>
 </div>
 
-<script src="app.js"></script>
+<script>
+// ============================================
+// ECHO PORTFOLIO - Complete JavaScript
+// ============================================
+
+// ✅ YOUR SUPABASE CREDENTIALS
+const SUPABASE_URL = 'https://mdiwyrwtwexvdikognuy.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_-bdW2xkTUtymZKzgmpZDeg_9kkHQfdO';
+
+// Initialize Supabase client
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ---------- GLOBAL STATE ----------
+let currentUser = null;
+let currentUserProfile = null;
+let currentUnitId = null;
+let currentUnits = [];
+let modalCallback = null;
+let currentPage = 'auth';
+
+// ---------- PAGE NAVIGATION ----------
+function showPage(page) {
+    document.getElementById('page-auth').style.display = 'none';
+    document.getElementById('page-dashboard').style.display = 'none';
+    document.getElementById('page-unitview').style.display = 'none';
+    document.getElementById('page-admin').style.display = 'none';
+
+    const pageMap = {
+        'auth': 'page-auth',
+        'dashboard': 'page-dashboard',
+        'unitview': 'page-unitview',
+        'admin': 'page-admin'
+    };
+    const el = document.getElementById(pageMap[page]);
+    if (el) el.style.display = 'block';
+    currentPage = page;
+}
+
+// ---------- AUTHENTICATION ----------
+document.addEventListener('DOMContentLoaded', () => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+        if (user) {
+            showPage('dashboard');
+            initDashboard();
+        } else {
+            showPage('auth');
+            setupAuthPage();
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal-overlay')) {
+            closeModal();
+        }
+    });
+
+    const form = document.getElementById('add-item-form');
+    if (form) {
+        form.addEventListener('submit', handleAddItem);
+    }
+});
+
+function setupAuthPage() {
+    let isLogin = true;
+    const form = document.getElementById('auth-form');
+    const submitBtn = document.getElementById('auth-submit');
+    const title = document.getElementById('auth-title');
+    const toggleText = document.getElementById('auth-toggle-text');
+    const toggleLink = document.getElementById('auth-toggle-link');
+    const errorDiv = document.getElementById('auth-error');
+
+    toggleLink.addEventListener('click', () => {
+        isLogin = !isLogin;
+        if (isLogin) {
+            title.textContent = 'Welcome Back';
+            submitBtn.textContent = 'Sign In';
+            toggleText.textContent = "Don't have an account?";
+            toggleLink.textContent = 'Create one';
+        } else {
+            title.textContent = 'Create Account';
+            submitBtn.textContent = 'Sign Up';
+            toggleText.textContent = 'Already have an account?';
+            toggleLink.textContent = 'Sign in';
+        }
+        errorDiv.classList.remove('show');
+        errorDiv.textContent = '';
+    });
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('auth-email').value.trim();
+        const password = document.getElementById('auth-password').value;
+
+        errorDiv.classList.remove('show');
+        errorDiv.textContent = '';
+
+        try {
+            let result;
+            if (isLogin) {
+                result = await supabase.auth.signInWithPassword({ email, password });
+            } else {
+                result = await supabase.auth.signUp({ email, password });
+            }
+
+            if (result.error) throw result.error;
+
+            if (!isLogin) {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    await supabase.from('users').insert([
+                        { id: user.id, email: user.email, role: 'student', subscription_tier: 'free' }
+                    ]);
+                }
+                errorDiv.style.background = 'rgba(52, 211, 153, 0.15)';
+                errorDiv.style.borderColor = 'rgba(52, 211, 153, 0.3)';
+                errorDiv.style.color = '#34d399';
+                errorDiv.textContent = '✅ Account created! Please sign in.';
+                errorDiv.classList.add('show');
+                setTimeout(() => toggleLink.click(), 1500);
+                return;
+            }
+
+            window.location.reload();
+
+        } catch (err) {
+            errorDiv.textContent = err.message || 'Authentication failed. Please try again.';
+            errorDiv.classList.add('show');
+        }
+    });
+}
+
+// ---------- DASHBOARD ----------
+async function initDashboard() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+        showPage('auth');
+        return;
+    }
+
+    currentUser = user;
+
+    const { data: profile, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+    if (error || !profile) {
+        await supabase.from('users').insert([
+            { id: user.id, email: user.email, role: 'student', subscription_tier: 'free' }
+        ]);
+        window.location.reload();
+        return;
+    }
+
+    currentUserProfile = profile;
+    updateUserUI();
+    await loadUnits();
+}
+
+function updateUserUI() {
+    const emailEl = document.getElementById('user-email');
+    const badgeEl = document.getElementById('user-badge');
+    const adminBadge = document.getElementById('admin-badge');
+    const adminBtn = document.getElementById('admin-btn');
+    const planDisplay = document.getElementById('plan-display');
+    const limitEl = document.getElementById('unit-limit');
+
+    if (emailEl) emailEl.textContent = currentUser.email;
+
+    if (badgeEl && currentUserProfile) {
+        const tier = currentUserProfile.subscription_tier || 'free';
+        badgeEl.textContent = tier === 'premium' ? '⭐ Premium' : 'Free';
+        badgeEl.className = `badge ${tier === 'premium' ? 'badge-premium' : 'badge-free'}`;
+    }
+
+    if (adminBadge && currentUserProfile && currentUserProfile.role === 'admin') {
+        adminBadge.classList.remove('hidden');
+    }
+
+    if (adminBtn && currentUserProfile && currentUserProfile.role === 'admin') {
+        adminBtn.classList.remove('hidden');
+    }
+
+    if (planDisplay && currentUserProfile) {
+        const tier = currentUserProfile.subscription_tier || 'free';
+        planDisplay.textContent = tier === 'premium' ? '⭐ Premium' : 'Free';
+    }
+
+    if (limitEl) {
+        const limit = getUnitLimit();
+        limitEl.textContent = limit;
+    }
+}
+
+function getUnitLimit() {
+    if (!currentUserProfile) return 40;
+    return currentUserProfile.subscription_tier === 'premium' ? 200 : 40;
+}
+
+function getItemLimit() {
+    return 12;
+}
+
+async function loadUnits() {
+    if (!currentUser) return;
+
+    const { data: units, error } = await supabase
+        .from('units')
+        .select('*')
+        .eq('user_id', currentUser.id)
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Error loading units:', error);
+        return;
+    }
+
+    currentUnits = units;
+    renderUnits(units);
+    updateStats(units);
+}
+
+function renderUnits(units) {
+    const grid = document.getElementById('units-grid');
+    if (!grid) return;
+
+    const limit = getUnitLimit();
+
+    let html = '';
+
+    units.forEach(unit => {
+        html += `
+            <div class="unit-card" data-id="${unit.id}">
+                <div class="unit-icon">📁</div>
+                <div class="unit-name">${escapeHtml(unit.name)}</div>
+                <div class="unit-meta">${unit.item_count || 0} items</div>
+                <div class="unit-actions">
+                    <button class="btn-sm btn-sm-edit" onclick="openUnit('${unit.id}')">Open</button>
+                    <button class="btn-sm btn-sm-danger" onclick="confirmDeleteUnit('${unit.id}')">×</button>
+                </div>
+            </div>
+        `;
+    });
+
+    if (units.length < limit) {
+        html += `
+            <div class="add-unit-card" onclick="showCreateUnitModal()">
+                <div class="plus-icon">+</div>
+                <div class="add-text">New Unit</div>
+            </div>
+        `;
+    } else {
+        html += `
+            <div class="add-unit-card" style="opacity:0.5;cursor:not-allowed;border-color:#e5e7eb;">
+                <div class="plus-icon" style="background:#d1d5db;">+</div>
+                <div class="add-text">Limit Reached (${limit})</div>
+            </div>
+        `;
+    }
+
+    grid.innerHTML = html;
+}
+
+function updateStats(units) {
+    const countEl = document.getElementById('unit-count');
+    const itemTotalEl = document.getElementById('item-total');
+    if (countEl) countEl.textContent = units.length;
+
+    let totalItems = 0;
+    units.forEach(u => { totalItems += (u.item_count || 0); });
+    if (itemTotalEl) itemTotalEl.textContent = totalItems;
+}
+
+function showCreateUnitModal() {
+    const name = prompt('Enter unit name:');
+    if (!name || name.trim() === '') return;
+
+    const limit = getUnitLimit();
+    if (currentUnits.length >= limit) {
+        alert(`Unit limit reached! Maximum ${limit} units allowed.`);
+        return;
+    }
+
+    createUnit(name.trim());
+}
+
+async function createUnit(name) {
+    if (!currentUser) return;
+
+    const { data, error } = await supabase
+        .from('units')
+        .insert([
+            { user_id: currentUser.id, name: name, item_count: 0 }
+        ])
+        .select()
+        .single();
+
+    if (error) {
+        alert('Error creating unit: ' + error.message);
+        return;
+    }
+
+    await loadUnits();
+}
+
+async function deleteUnit(unitId) {
+    if (!currentUser) return;
+
+    await supabase
+        .from('portfolio_items')
+        .delete()
+        .eq('unit_id', unitId);
+
+    const { error } = await supabase
+        .from('units')
+        .delete()
+        .eq('id', unitId)
+        .eq('user_id', currentUser.id);
+
+    if (error) {
+        alert('Error deleting unit: ' + error.message);
+        return;
+    }
+
+    await loadUnits();
+}
+
+function confirmDeleteUnit(unitId) {
+    showModal(
+        'Delete Unit?',
+        'This will permanently delete this unit and all its items.',
+        () => deleteUnit(unitId)
+    );
+}
+
+function openUnit(unitId) {
+    currentUnitId = unitId;
+    const unit = currentUnits.find(u => u.id === unitId);
+    localStorage.setItem('currentUnitId', unitId);
+    localStorage.setItem('currentUnitName', unit ? unit.name : 'Unit');
+    showPage('unitview');
+    loadItems();
+}
+
+// ---------- UNIT VIEW (ITEMS) ----------
+async function loadItems() {
+    const unitId = localStorage.getItem('currentUnitId');
+    if (!unitId) {
+        alert('No unit selected.');
+        showPage('dashboard');
+        return;
+    }
+
+    currentUnitId = unitId;
+
+    const titleEl = document.getElementById('unit-title');
+    if (titleEl) {
+        const name = localStorage.getItem('currentUnitName') || 'Unit';
+        titleEl.textContent = `📁 ${escapeHtml(name)}`;
+    }
+
+    const { data: items, error } = await supabase
+        .from('portfolio_items')
+        .select('*')
+        .eq('unit_id', unitId)
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Error loading items:', error);
+        return;
+    }
+
+    renderItems(items);
+}
+
+function renderItems(items) {
+    const grid = document.getElementById('items-grid');
+    if (!grid) return;
+
+    if (items.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-light);">
+                <div style="font-size:48px;margin-bottom:12px;">📭</div>
+                <p>No items yet. Add your first portfolio item above!</p>
+            </div>
+        `;
+        return;
+    }
+
+    let html = '';
+    items.forEach(item => {
+        const icon = getItemIcon(item.type);
+        const fileUrl = item.file_url ? `<a href="${item.file_url}" target="_blank" style="color:var(--gold);">🔗</a>` : '';
+
+        html += `
+            <div class="item-card" data-id="${item.id}">
+                <div class="item-thumb">
+                    ${item.file_url ? `<img src="${item.file_url}" alt="${escapeHtml(item.name)}" />` : icon}
+                </div>
+                <div class="item-name">${escapeHtml(item.name)} ${fileUrl}</div>
+                <div class="item-type">${item.type || 'Document'}</div>
+                <div class="item-actions">
+                    <button class="btn-sm btn-sm-danger" onclick="confirmDeleteItem('${item.id}')">Delete</button>
+                </div>
+            </div>
+        `;
+    });
+
+    grid.innerHTML = html;
+}
+
+function getItemIcon(type) {
+    const icons = {
+        'document': '📄',
+        'image': '🖼️',
+        'video': '🎬',
+        'link': '🔗',
+        'other': '📎'
+    };
+    return icons[type] || '📄';
+}
+
+async function handleAddItem(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('item-name').value.trim();
+    const type = document.getElementById('item-type').value;
+    const fileInput = document.getElementById('item-file');
+    const file = fileInput.files[0];
+
+    if (!name) {
+        alert('Please enter an item name.');
+        return;
+    }
+
+    const { data: existingItems, error: countError } = await supabase
+        .from('portfolio_items')
+        .select('id', { count: 'exact' })
+        .eq('unit_id', currentUnitId);
+
+    if (countError) {
+        alert('Error checking item limit.');
+        return;
+    }
+
+    const limit = getItemLimit();
+    if (existingItems.length >= limit) {
+        alert(`Maximum ${limit} items per unit reached!`);
+        return;
+    }
+
+    let fileUrl = null;
+    if (file) {
+        if (file.size > 25 * 1024 * 1024) {
+            alert('File too large! Maximum 25MB.');
+            return;
+        }
+
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${currentUser.id}/${currentUnitId}/${Date.now()}.${fileExt}`;
+
+        const { data: uploadData, error: uploadError } = await supabase.storage
+            .from('portfolio-files')
+            .upload(fileName, file, {
+                cacheControl: '3600',
+                upsert: false
+            });
+
+        if (uploadError) {
+            alert('Error uploading file: ' + uploadError.message);
+            return;
+        }
+
+        const { data: urlData } = supabase.storage
+            .from('portfolio-files')
+            .getPublicUrl(fileName);
+
+        fileUrl = urlData.publicUrl;
+    }
+
+    const { data, error } = await supabase
+        .from('portfolio_items')
+        .insert([
+            {
+                unit_id: currentUnitId,
+                name: name,
+                type: type,
+                file_url: fileUrl,
+                user_id: currentUser.id
+            }
+        ])
+        .select()
+        .single();
+
+    if (error) {
+        alert('Error adding item: ' + error.message);
+        return;
+    }
+
+    await supabase
+        .from('units')
+        .update({ item_count: existingItems.length + 1 })
+        .eq('id', currentUnitId);
+
+    document.getElementById('item-name').value = '';
+    document.getElementById('item-file').value = '';
+
+    await loadItems();
+}
+
+async function deleteItem(itemId) {
+    if (!currentUser) return;
+
+    const { error } = await supabase
+        .from('portfolio_items')
+        .delete()
+        .eq('id', itemId)
+        .eq('user_id', currentUser.id);
+
+    if (error) {
+        alert('Error deleting item: ' + error.message);
+        return;
+    }
+
+    const { data: remaining } = await supabase
+        .from('portfolio_items')
+        .select('id', { count: 'exact' })
+        .eq('unit_id', currentUnitId);
+
+    await supabase
+        .from('units')
+        .update({ item_count: remaining.length })
+        .eq('id', currentUnitId);
+
+    await loadItems();
+}
+
+function confirmDeleteItem(itemId) {
+    showModal(
+        'Delete Item?',
+        'This will permanently delete this portfolio item.',
+        () => deleteItem(itemId)
+    );
+}
+
+// ---------- ADMIN ----------
+async function goToAdmin() {
+    const isAdmin = await verifyAdmin();
+    if (isAdmin) {
+        showPage('admin');
+        loadAdminStats();
+    }
+}
+
+async function verifyAdmin() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+        showPage('auth');
+        return false;
+    }
+
+    const { data: profile, error } = await supabase
+        .from('users')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+    if (error || profile.role !== 'admin') {
+        alert('⚠️ Unauthorized Access Detected.\nYou do not have administrative privileges.');
+        showPage('dashboard');
+        return false;
+    }
+
+    return true;
+}
+
+async function loadAdminStats() {
+    try {
+        const { count: studentCount } = await supabase
+            .from('users')
+            .select('id', { count: 'exact', head: true });
+
+        const { count: unitCount } = await supabase
+            .from('units')
+            .select('id', { count: 'exact', head: true });
+
+        const { count: itemCount } = await supabase
+            .from('portfolio_items')
+            .select('id', { count: 'exact', head: true });
+
+        const { count: premiumCount } = await supabase
+            .from('users')
+            .select('id', { count: 'exact', head: true })
+            .eq('subscription_tier', 'premium');
+
+        document.getElementById('stat-students').textContent = studentCount || 0;
+        document.getElementById('stat-units').textContent = unitCount || 0;
+        document.getElementById('stat-items').textContent = itemCount || 0;
+        document.getElementById('stat-premium').textContent = premiumCount || 0;
+
+        await loadRecentActivity();
+
+    } catch (err) {
+        console.error('Error loading admin stats:', err);
+        document.getElementById('stat-students').textContent = '⚠️ Error';
+        document.getElementById('stat-units').textContent = '⚠️ Error';
+        document.getElementById('stat-items').textContent = '⚠️ Error';
+        document.getElementById('stat-premium').textContent = '⚠️ Error';
+    }
+}
+
+async function loadRecentActivity() {
+    const activityDiv = document.getElementById('recent-activity');
+
+    try {
+        const { data: recentUnits } = await supabase
+            .from('units')
+            .select('name, created_at, users!inner(email)')
+            .order('created_at', { ascending: false })
+            .limit(5);
+
+        const { data: recentItems } = await supabase
+            .from('portfolio_items')
+            .select('name, created_at, units!inner(name)')
+            .order('created_at', { ascending: false })
+            .limit(5);
+
+        let html = '';
+
+        if (recentUnits && recentUnits.length > 0) {
+            html += '<strong>📚 Recent Units Created:</strong><ul style="margin:8px 0 16px 20px;">';
+            recentUnits.forEach(u => {
+                const email = u.users ? u.users.email : 'Unknown user';
+                const date = new Date(u.created_at).toLocaleDateString();
+                html += `<li>${escapeHtml(u.name)} — <span style="color:var(--text-light);font-size:13px;">${escapeHtml(email)} • ${date}</span></li>`;
+            });
+            html += '</ul>';
+        }
+
+        if (recentItems && recentItems.length > 0) {
+            html += '<strong>📎 Recent Items Uploaded:</strong><ul style="margin:8px 0 0 20px;">';
+            recentItems.forEach(item => {
+                const unitName = item.units ? item.units.name : 'Unknown unit';
+                const date = new Date(item.created_at).toLocaleDateString();
+                html += `<li>${escapeHtml(item.name)} — <span style="color:var(--text-light);font-size:13px;">in ${escapeHtml(unitName)} • ${date}</span></li>`;
+            });
+            html += '</ul>';
+        }
+
+        if (!html) {
+            html = 'No recent activity found.';
+        }
+
+        activityDiv.innerHTML = html;
+
+    } catch (err) {
+        console.error('Error loading recent activity:', err);
+        activityDiv.textContent = 'Unable to load recent activity.';
+    }
+}
+
+// ---------- UPGRADE PLAN ----------
+function upgradePlan() {
+    if (!currentUserProfile) return;
+
+    if (currentUserProfile.subscription_tier === 'premium') {
+        alert('You are already on the Premium plan! 🎉');
+        return;
+    }
+
+    if (confirm('Upgrade to Premium for unlimited units? (This is a demo - no payment will be processed)')) {
+        simulateUpgrade();
+    }
+}
+
+async function simulateUpgrade() {
+    const { error } = await supabase
+        .from('users')
+        .update({ subscription_tier: 'premium' })
+        .eq('id', currentUser.id);
+
+    if (error) {
+        alert('Error upgrading: ' + error.message);
+        return;
+    }
+
+    currentUserProfile.subscription_tier = 'premium';
+    alert('🎉 Successfully upgraded to Premium! You now have 200 unit limit.');
+    updateUserUI();
+    await loadUnits();
+}
+
+// ---------- LOGOUT ----------
+async function handleLogout() {
+    await supabase.auth.signOut();
+    localStorage.removeItem('currentUnitId');
+    localStorage.removeItem('currentUnitName');
+    window.location.reload();
+}
+
+// ---------- NAVIGATION ----------
+function goBack() {
+    showPage('dashboard');
+    initDashboard();
+}
+
+function goToDashboard() {
+    showPage('dashboard');
+    initDashboard();
+}
+
+// ---------- MODAL SYSTEM ----------
+function showModal(title, message, onConfirm) {
+    const overlay = document.getElementById('confirm-modal');
+    const titleEl = document.getElementById('modal-title');
+    const messageEl = document.getElementById('modal-message');
+    const confirmBtn = document.getElementById('modal-confirm-btn');
+
+    if (!overlay) return;
+
+    titleEl.textContent = title;
+    messageEl.textContent = message;
+    modalCallback = onConfirm;
+
+    confirmBtn.onclick = () => {
+        closeModal();
+        if (modalCallback) modalCallback();
+    };
+
+    overlay.classList.add('active');
+}
+
+function closeModal() {
+    const overlay = document.getElementById('confirm-modal');
+    if (overlay) overlay.classList.remove('active');
+    modalCallback = null;
+}
+
+// ---------- UTILITIES ----------
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// ---------- AUTO-LOGIN CHECK ----------
+supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN' && session) {
+        if (currentPage === 'auth') {
+            window.location.reload();
+        }
+    }
+    if (event === 'SIGNED_OUT') {
+        showPage('auth');
+    }
+});
+
+console.log('🚀 ECHO Portfolio loaded successfully!');
+console.log('📡 Connected to Supabase:', SUPABASE_URL);
+</script>
 </body>
 </html>
