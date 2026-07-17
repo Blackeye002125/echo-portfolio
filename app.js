@@ -4,13 +4,13 @@
 
 // !!! YOUR SUPABASE CREDENTIALS - FIXED !!!
 // PROJECT ID: mdiwyrwtwexvdikognuy
-// SUPABASE URL: https://mdiwyrwtwexvdikognuy.supabase.co
-// API KEY: ⚠️ YOU NEED TO ADD YOUR PUBLISHABLE KEY BELOW ⚠️
+// ✅ REPLACE 'YOUR_PUBLISHABLE_KEY_HERE' WITH YOUR ACTUAL KEY
 
-const SUPABASE_URL = 'https://mdiwyrwtwexvdikognuy.supabase.co';  // ✅ FIXED WITH YOUR PROJECT ID
-const SUPABASE_ANON_KEY = 'sb_publishable_-bdW2xkTUtymZKzgmpZDeg_9kkHQfdO';  // ← GET THIS FROM SUPABASE SETTINGS > API
+const SUPABASE_URL = 'https://mdiwyrwtwexvdikognuy.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_-bdW2xkTUtymZKzgmpZDeg_9kkHQfdO';  // ← PASTE YOUR KEY HERE
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Initialize Supabase client
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ---------- GLOBAL STATE ----------
 let currentUser = null;
@@ -43,15 +43,15 @@ function showPage(page) {
 // ---------- AUTHENTICATION ----------
 document.addEventListener('DOMContentLoaded', () => {
     // Check if user is logged in
-    const { data: { user } } = supabase.auth.getUser();
-    if (user) {
-        // User is logged in, show dashboard
-        showPage('dashboard');
-        initDashboard();
-    } else {
-        showPage('auth');
-        setupAuthPage();
-    }
+    supabase.auth.getUser().then(({ data: { user } }) => {
+        if (user) {
+            showPage('dashboard');
+            initDashboard();
+        } else {
+            showPage('auth');
+            setupAuthPage();
+        }
+    });
 
     // Setup modal close on overlay click
     document.addEventListener('click', (e) => {
@@ -130,7 +130,7 @@ function setupAuthPage() {
                 return;
             }
 
-            // Login success
+            // Login success - reload page to show dashboard
             window.location.reload();
 
         } catch (err) {
@@ -761,7 +761,6 @@ function escapeHtml(text) {
 // Check auth state on load
 supabase.auth.onAuthStateChange((event, session) => {
     if (event === 'SIGNED_IN' && session) {
-        // Refresh page to load dashboard
         if (currentPage === 'auth') {
             window.location.reload();
         }
@@ -770,3 +769,6 @@ supabase.auth.onAuthStateChange((event, session) => {
         showPage('auth');
     }
 });
+
+console.log('🚀 ECHO Portfolio loaded successfully!');
+console.log('📡 Connected to Supabase:', SUPABASE_URL);
