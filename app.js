@@ -8,7 +8,7 @@
 // API KEY: ⚠️ YOU NEED TO ADD YOUR PUBLISHABLE KEY BELOW ⚠️
 
 const SUPABASE_URL = 'https://mdiwyrwtwexvdikognuy.supabase.co';  // ✅ FIXED WITH YOUR PROJECT ID
-const SUPABASE_ANON_KEY = 'sb_publishable_-bdW2xkTUtymZKzgmpZDeg_9kkHQfdO';  // ← GET THIS FROM SUPABASE SETTINGS > API
+const SUPABASE_ANON_KEY = 'sb_secret_ysxNefwrNnxSPvLSfftmiA_VmcpK-V7';  // ← GET THIS FROM SUPABASE SETTINGS > API
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
