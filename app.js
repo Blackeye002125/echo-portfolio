@@ -2,12 +2,9 @@
 // ECHO PORTFOLIO - Complete Application Logic
 // ============================================
 
-// !!! YOUR SUPABASE CREDENTIALS - FIXED !!!
-// PROJECT ID: mdiwyrwtwexvdikognuy
-// ✅ REPLACE 'YOUR_PUBLISHABLE_KEY_HERE' WITH YOUR ACTUAL KEY
-
+// ✅ YOUR SUPABASE CREDENTIALS - FIXED!
 const SUPABASE_URL = 'https://mdiwyrwtwexvdikognuy.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_-bdW2xkTUtymZKzgmpZDeg_9kkHQfdO';  // ← PASTE YOUR KEY HERE
+const SUPABASE_ANON_KEY = 'sb_publishable_-bdW2xkTUtymZKzgmpZDeg_9kkHQfdO';
 
 // Initialize Supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
