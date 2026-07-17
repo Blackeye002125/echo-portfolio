@@ -1,11 +1,14 @@
 // ============================================
 // ECHO PORTFOLIO - Complete Application Logic
-// Handles: Auth, Units, Items, Admin, Navigation
 // ============================================
 
-// !!! REPLACE WITH YOUR SUPABASE CREDENTIALS !!!
-const SUPABASE_URL = 'https://your-project.supabase.co';
-const SUPABASE_ANON_KEY = 'your-anon-key';
+// !!! YOUR SUPABASE CREDENTIALS - FIXED !!!
+// PROJECT ID: mdiwyrwtwexvdikognuy
+// SUPABASE URL: https://mdiwyrwtwexvdikognuy.supabase.co
+// API KEY: ⚠️ YOU NEED TO ADD YOUR PUBLISHABLE KEY BELOW ⚠️
+
+const SUPABASE_URL = 'https://mdiwyrwtwexvdikognuy.supabase.co';  // ✅ FIXED WITH YOUR PROJECT ID
+const SUPABASE_ANON_KEY = 'sb_publishable_-bdW2xkTUtymZKzgmpZDeg_9kkHQfdO';  // ← GET THIS FROM SUPABASE SETTINGS > API
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
