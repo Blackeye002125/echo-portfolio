@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ECHO Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- PAGE 1: AUTH (Login / Signup)                -->
+<!-- ============================================ -->
+<div id="page-auth" class="auth-container">
+    <div class="auth-card">
+        <div class="logo">
+            <h1>ECHO <span>Portfolio</span></h1>
+            <p>Institutional Portfolio Management</p>
+        </div>
+
+        <h2 id="auth-title">Welcome Back</h2>
+        <div id="auth-error" class="auth-error"></div>
+
+        <form id="auth-form" class="auth-form">
+            <div class="form-group">
+                <label for="auth-email">Email Address</label>
+                <input type="email" id="auth-email" placeholder="you@institution.edu" required />
+            </div>
+            <div class="form-group">
+                <label for="auth-password">Password</label>
+                <input type="password" id="auth-password" placeholder="••••••••" required />
+            </div>
+            <button type="submit" class="btn-primary" id="auth-submit">Sign In</button>
+        </form>
+
+        <div class="auth-toggle">
+            <span id="auth-toggle-text">Don't have an account?</span>
+            <a id="auth-toggle-link">Create one</a>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- PAGE 2: DASHBOARD (40-Unit Grid)            -->
+<!-- ============================================ -->
+<div id="page-dashboard" class="dashboard-container" style="display:none;">
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="brand">
+            <h2>ECHO <span>Portfolio</span></h2>
+        </div>
+        <div class="user-info">
+            <span class="user-email" id="user-email">user@institution.edu</span>
+            <span class="badge badge-free" id="user-badge">Free</span>
+            <span class="badge badge-admin hidden" id="admin-badge">Admin</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn-gold hidden" id="admin-btn" onclick="goToAdmin()">⚙️ Admin</button>
+            <button class="btn-outline" onclick="handleLogout()">Sign Out</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-label">Total Units</div>
+                <div class="stat-value"><span id="unit-count">0</span> / <span class="gold" id="unit-limit">40</span></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Items</div>
+                <div class="stat-value"><span id="item-total">0</span></div>
+            </div>
+            <div class="stat-card" id="premium-upsell">
+                <div class="stat-label">Your Plan</div>
+                <div class="stat-value" style="font-size:16px;">
+                    <span id="plan-display">Free</span>
+                    <button class="btn-gold" style="font-size:12px;padding:4px 16px;margin-left:8px;" onclick="upgradePlan()">Upgrade</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="units-grid" id="units-grid">
+            <!-- Units rendered by JavaScript -->
+        </div>
+    </main>
+</div>
+
+<!-- ============================================ -->
+<!-- PAGE 3: UNIT VIEW (12-Item Upload Board)    -->
+<!-- ============================================ -->
+<div id="page-unitview" class="unit-view-container" style="display:none;">
+    <header class="unit-view-header">
+        <button class="back-btn" onclick="goBack()">← Back to Dashboard</button>
+        <div class="unit-title" id="unit-title">Loading Unit...</div>
+        <div></div>
+    </header>
+
+    <main class="unit-view-main">
+        <!-- Add Item Area -->
+        <div class="add-item-area">
+            <h3>Add New Portfolio Item</h3>
+            <form class="add-form" id="add-item-form">
+                <input type="text" id="item-name" placeholder="Item name..." required />
+                <select id="item-type" style="padding:10px 14px;border:1px solid #e5e7eb;border-radius:8px;background:white;font-size:14px;">
+                    <option value="document">📄 Document</option>
+                    <option value="image">🖼️ Image</option>
+                    <option value="video">🎬 Video</option>
+                    <option value="link">🔗 Link</option>
+                    <option value="other">📎 Other</option>
+                </select>
+                <input type="file" id="item-file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.gif,.mp4,.mov" />
+                <button type="submit" class="btn-add">Add Item</button>
+            </form>
+        </div>
+
+        <!-- Items Grid -->
+        <div class="items-grid" id="items-grid">
+            <!-- Items rendered by JavaScript -->
+        </div>
+    </main>
+</div>
+
+<!-- ============================================ -->
+<!-- PAGE 4: ADMIN CONSOLE                       -->
+<!-- ============================================ -->
+<div id="page-admin" class="admin-container" style="display:none;">
+    <div class="admin-header">
+        <h1>⚙️ ECHO <span>Admin Console</span></h1>
+        <div style="display:flex;gap:12px;align-items:center;">
+            <span class="admin-badge">🔒 Secure</span>
+            <button class="btn-outline" style="color:white;border-color:rgba(255,255,255,0.3);" onclick="goToDashboard()">← Dashboard</button>
+        </div>
+    </div>
+
+    <div style="max-width:1200px;margin:0 auto;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:8px;">
+            <h2 style="color:var(--navy);font-size:20px;">System Overview</h2>
+            <span style="font-size:13px;color:var(--text-light);">Live data from all users</span>
+        </div>
+
+        <div class="stats-grid">
+            <div class="card">
+                <h3>👥 Total Registered Students</h3>
+                <p id="stat-students">Loading...</p>
+            </div>
+            <div class="card">
+                <h3>📚 Total Active Units</h3>
+                <p id="stat-units">Loading...</p>
+            </div>
+            <div class="card">
+                <h3>📎 Total Portfolio Items</h3>
+                <p id="stat-items">Loading...</p>
+            </div>
+            <div class="card" style="border-left-color:#2563eb;">
+                <h3>💎 Premium Users</h3>
+                <p id="stat-premium">Loading...</p>
+            </div>
+        </div>
+
+        <div style="margin-top:32px;background:white;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);">
+            <h3 style="font-size:16px;color:var(--navy);margin-bottom:12px;">📋 Recent Activity</h3>
+            <div id="recent-activity" style="color:var(--text-light);font-size:14px;">
+                Loading activity log...
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- MODAL (for confirmations)                   -->
+<!-- ============================================ -->
+<div class="modal-overlay" id="confirm-modal">
+    <div class="modal">
+        <h2 id="modal-title">Confirm Action</h2>
+        <p id="modal-message">Are you sure you want to do this?</p>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+            <button class="btn btn-danger" id="modal-confirm-btn">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
